@@ -1,0 +1,166 @@
+Used this file to keep track of my command history just in case
+I was forced to restart the proejct either because of being
+locked out of the server or some other irreversible change.
+
+https://www.udacity.com/account#!/development_environment
+https://discussions.udacity.com/t/markedly-underwhelming-and-potentially-wrong-resource-list-for-p5/8587
+
+http://ec2-35-166-218-220.us-west-2.compute.amazonaws.com/
+
+ssh -i ~/.ssh/udacity_key.rsa root@35.166.218.220
+
+SECURE YOUR SERVER
+sudo nano /etc/ssh/sshd_config
+"""
+Port 22 -> Port 2200
+"""
+reload ssh
+exit
+ssh -i ~/.ssh/udacity_key.rsa root@35.166.218.220 -p 2200
+
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 2200/tcp
+sudo ufw allow www
+sudo ufw allow ntp
+sudo ufw enable
+exit
+ssh -i ~/.ssh/udacity_key.rsa root@35.166.218.220 -p 2200
+
+UPDATE SOFTWARE
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get autoremove
+
+CREATE USER
+sudo apt-get install finger
+sudo adduser grader
+"""
+password: #Tac0Turtl3!
+Full Name: Udacity Linux Grader
+"""
+finger grader
+sudo visudo
+"""
+grader ALL=(ALL:ALL) ALL
+"""
+sudo nano /etc/ssh/sshd_config
+"""
+UseDNS no
+AllowUsers grader
+"""
+reload ssh
+https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2
+** CLIENT (personal computer)
+ssh-keygen -t rsa
+** SERVER
+sudo su - grader
+mkdir .ssh/
+sudo nano .ssh/authorized_keys
+"""
+copy id_rsa.pub from CLIENT to SERVER
+"""
+** CLIENT
+mv id_rsa grader_key.rsa
+ssh -i ~/.ssh/grader_key.rsa root@35.166.218.220 -p 2200
+sudo nano /etc/ssh/sshd_config
+"""
+PermitRootLogin no
+"""
+reload ssh
+
+CONFIGURE TIMEZONE
+sudo dpkg-reconfigure tzdata
+
+HOW TO DEPLOY A FLASK APPLICATION ON A UBUNTU VPS
+sudo apt-get install apache2
+https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+sudo apt-get install libapache2-mod-wsgi python-dev
+sudo a2enmod wsgi
+cd /var/www
+sudo mkdir Item_Catalog
+cd Item_Catalog
+git clone https://github.com/geordyp/Item_Catalog.git
+cd Item_Catalog
+sudo mv application.py ~/application.py
+sudo nano __init__.py
+"""
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def hello():
+    return "Hello, I love Digital Ocean!"
+if __name__ == "__main__":
+    app.run()
+"""
+sudo apt-get install python-pip
+sudo pip install virtualenv
+sudo virtualenv venv
+source venv/bin/activate
+sudo pip install Flask
+sudo python __init__.py
+deactivate
+sudo nano /etc/apache2/sites-available/Item_Catalog.conf
+"""
+<VirtualHost *:80>
+		ServerName ec2-35-166-218-220.us-west-2.compute.amazonaws.com
+		ServerAdmin geowilliams6@gmail.com
+		WSGIScriptAlias / /var/www/Item_Catalog/item_catalog.wsgi
+		<Directory /var/www/Item_Catalog/Item_Catalog/>
+			Order allow,deny
+			Allow from all
+		</Directory>
+		Alias /static /var/www/Item_Catalog/Item_Catalog/static
+		<Directory /var/www/Item_Catalog/Item_Catalog/static/>
+			Order allow,deny
+			Allow from all
+		</Directory>
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		LogLevel warn
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+"""
+sudo a2ensite Item_Catalog
+cd /var/www/Item_Catalog
+sudo nano item_catalog.wsgi
+"""
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/Item_Catalog/")
+
+from Item_Catalog import app as application
+application.secret_key = 'Add your secret key'
+"""
+sudo service apache2 restart
+
+INSTALLING POSTGRESQL
+https://www.tutorialspoint.com/postgresql/postgresql_create_database.htm
+sudo apt-get install postgresql
+LOG INTO POSTGRES
+sudo -u postgres psql postgres
+\password postgres (Appl3B3ar)
+CREATE USER catalog WITH PASSWORD 'P1zzaCat';
+CREATE DATABASE item_catalog;
+\q
+cd /var/www/Item_Catalog/Item_Catalog
+http://killtheyak.com/use-postgresql-with-django-flask/
+source venv/bin/activate
+sudo pip install Flask-SQLAlchemy
+sudo pip install --upgrade setuptools
+sudo pip install ez_setup
+sudo apt install libpq-dev
+sudo pip install -U psycopg2
+sudo pip install --upgrade oauth2client
+deactivate
+CHANGE "create_engine(sqlite)" -> "create_engine('postgresql://catalog:P1zzaCat@localhost/item_catalog')"
+CHANGE LENGTH OF DESCRIPTION TO 500 in database_setup.py
+CHANGE JSON METHOD NAMES in application.py
+sudo service apache2 restart
+
+tail /var/log/apache2/error.log
+
+user = isUserLoggedIn()
+if not user:
+  return redirect(url_for('showLogin'))
