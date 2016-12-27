@@ -2,11 +2,11 @@
 For this project, I configured a linux server to deploy my Item_Catalog web
 application. The server was an Amazon EC2 instance provided by Udacity. The URL
 can be found below. I first updated all the installed packages and configured
-the local timezone to UTC (United States, central). Then I secured
-the server by configuring the Uncomplicated Firewall. After, I set up a new
-user, grader, with sudo permissions and ensured that user would be able to log
-with an ssh key before continuing. I wanted to get those pieces done early to
-avoid losing a lot of work in the event that I was locked out of the server.
+the local timezone to UTC (United States, central). Then I secured the server
+by configuring the Uncomplicated Firewall. After that, I set up a new user,
+grader, with sudo permissions and ensured grader would be able to log in with
+an ssh key before continuing. I wanted to get those configurations done early
+to avoid losing a lot of work in the event that I was locked out of the server.
 
 Then I began to set up my web application. I first installed Apache and
 configured it with mod_wsgi to serve the application. I then installed
