@@ -17,7 +17,7 @@ Then I began to set up my web application. I first installed Apache and configur
 * PostgreSQL: database server used to serve the data in the web application
 * git: version control system, used to pull down my Item_Catalog project
 
-# Third-Party Resources
+# Helpful Resources
 https://discussions.udacity.com/t/markedly-underwhelming-and-potentially-wrong-resource-list-for-p5/8587
 https://help.ubuntu.com/community/UbuntuTime#Using_the_Command_Line_.28terminal.29
 https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2
