@@ -18,10 +18,10 @@ Then I began to set up my web application. I first installed Apache and configur
 * git: version control system, used to pull down my Item_Catalog project
 
 # Helpful Resources
-https://discussions.udacity.com/t/markedly-underwhelming-and-potentially-wrong-resource-list-for-p5/8587
-https://help.ubuntu.com/community/UbuntuTime#Using_the_Command_Line_.28terminal.29
-https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2
-https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
-https://www.tutorialspoint.com/postgresql/postgresql_create_database.htm
-http://killtheyak.com/use-postgresql-with-django-flask/
-http://docs.sqlalchemy.org/en/latest/core/engines.html
+* https://discussions.udacity.com/t/markedly-underwhelming-and-potentially-wrong-resource-list-for-p5/8587  
+* https://help.ubuntu.com/community/UbuntuTime#Using_the_Command_Line_.28terminal.29  
+* https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2  
+* https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps  
+* https://www.tutorialspoint.com/postgresql/postgresql_create_database.htm  
+* http://killtheyak.com/use-postgresql-with-django-flask/  
+* http://docs.sqlalchemy.org/en/latest/core/engines.html  
